@@ -7,6 +7,7 @@
 import urllib.request
 import urllib3
 from urllib import parse
+import requests
 
 def use_simple_urllib(url_ip):
     response = urllib.request.urlopen(url_ip)
@@ -33,8 +34,20 @@ def use_simple_urllib2(url_ip):
             print(line)
 
 
+# requests
+# 支持更多Encoding格式
+# 支持多次请求一个连接
+def use_simple_requests(url_ip):
+    params = {'name': 'jack', 'age': 100}
+    # 发送请求
+    response = requests.get(url_ip,params=params)
+    print(response.text)
+    print(response.status_code)
+    print(response.json())
+    print(response.headers)
+
 if __name__ == '__main__':
-    url_ip = 'http://127.0.0.1:8000/ip'
-    use_simple_urllib(url_ip)
-    print('##################################')
-    use_simple_urllib2(url_ip)
+    url_ip = 'http://127.0.0.1:8000/get'
+    # use_simple_urllib(url_ip)
+    # use_simple_urllib2(url_ip)
+    use_simple_requests(url_ip)

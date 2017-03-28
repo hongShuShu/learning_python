@@ -3,8 +3,8 @@
 
 import requests
 
+'''下载图片'''
 def download_photo():
-    '''下载图片'''
     UserAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
     headers = {'User-Agent':UserAgent}
     url = 'http://img3.imgtn.bdimg.com/it/u=2228635891,3833788938&fm=21&gp=0.jpg'
@@ -19,9 +19,7 @@ def download_photo():
             # 一块一块的写入fd地址所对应的文件
             fd.write(chunk)
 
-
-def readModel():
-    print('读写方式')
+'''
     # w 以写方式打开(必要时清空)
     # a 以追加模式打开(从EOF开始, 必要时创建新文件)
     # r+ 以读写模式打开
@@ -33,7 +31,7 @@ def readModel():
     # ab+ 以二进制读写模式打开(参见a+)
     # rb+ 以二进制读写模式打开(参见r+)
     # wb+ 以二进制读写模式打开(参见w+)
-
+'''
 
 def download_photo_improverd():
     UserAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
@@ -53,6 +51,20 @@ def download_photo_improverd():
                 fd.write(chunk)
 
 
+'''回调函数
+    *args表示任何多个无名参数，它是一个tuple；
+    **kwargs表示关键字参数，它是一个dict.
+    并且同时使用*args和**kwargs时，必须*args参数列要在**kwargs前.
+'''
+def get_key_info(response,*args,**kwargs):
+    print(response.headers['Content-Type'])
+
+def main():
+    # 接收到response的时候注册一个函数
+    # requests.get('https://www.baidu.com',hooks=dict(response=get_key_info))
+    requests.get('https://api.github.com', hooks=dict(response=get_key_info))
+
 if __name__ == '__main__':
     # download_photo()
-    download_photo_improverd()
+    # download_photo_improverd()
+    main()

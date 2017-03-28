@@ -59,6 +59,17 @@ def hard_requsts(URL):
     print(response.request.headers)
     print(response.text)
 
+def response_params():
+    res = requests.get('https://www.github.com')
+    # dir函数可以查看该对象的所有方法
+    print(dir(res))
+    print(res.request)
+    print(res.request.headers)
+    print(res.content)
+    print(res.text)
+    print(res.json)
+    # 查看响应时间
+    print(res.elapsed)
 
 if __name__ == '__main__':
     URL = 'https://api.github.com'
@@ -67,4 +78,5 @@ if __name__ == '__main__':
     # patch_request(URL)
 
     # timeout_request(URL)
-    hard_requsts(URL)
+    # hard_requsts(URL)
+    response_params()

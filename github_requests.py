@@ -1,8 +1,10 @@
 # !/usr/bin/evn python3
-# _*_ coding:utf-8 _*_
+# -*- coding: utf-8 -*-
 
 import json
 import requests
+from requests import exceptions
+import logging
 
 def build_url(URL,endpoint):
     return '/'.join([URL,endpoint])
@@ -22,12 +24,47 @@ def params_request(URL):
 
 def patch_request(URL):
     url = build_url(URL,'user')
+    # 可修改GitHub自己的信息
     response = requests.patch(url,auth=('hongShuShu','密码'),json={'location':'北京市海淀区'})
+    print(response.request.headers)
+    print(response.request.body)
+    print(response.status_code)
 
-    print(better_print(response.text))
+def timeout_request(URL):
+    url = build_url(URL, 'user/emails')
+    try:
+        response = requests.get(url,timeout=0.1)
+        response.raise_for_status()
+    except exceptions.Timeout as e:
+        print(e.args)
+        logging.error(e)
+    except exceptions.HTTPError as e:
+        print(e)
+    else:
+        print(better_print(response.text))
+        print(response.status_code)
+
+# 自定义请求
+def hard_requsts(URL):
+    from requests import Request,Session
+    s = Session()
+    headers = {'User-Agent':'iPhone 10.2'}
+    req = Request('GET',build_url(URL,'user/emails'),auth=('hongShuShu','密码'),headers=headers)
+    prepped = req.prepare()
+    print(prepped.body)
+    print(prepped.headers)
+
+    response = s.send(prepped,timeout=5)
+    print(response.status_code)
+    print(response.request.headers)
+    print(response.text)
+
 
 if __name__ == '__main__':
     URL = 'https://api.github.com'
     # request_method(URL)
     # params_request(URL)
-    patch_request(URL)
+    # patch_request(URL)
+
+    # timeout_request(URL)
+    hard_requsts(URL)

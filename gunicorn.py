@@ -1,5 +1,5 @@
 # !/usr/bin/evn python3
-# _*_ coding:utf-8 _*_
+# -*- coding: utf-8 -*-
 
 # 利用gunicorn启动本地服务器命令   gunicorn httpbin:app
 # 可通过127.0.0.1:8000 访问
